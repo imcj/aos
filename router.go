@@ -1,7 +1,1 @@
-package main;
-
-import (
-	"github.com/gin-gonic/gin"
-	"net/http"
-	"fmt"
-)
+package main

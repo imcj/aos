@@ -1,4 +1,4 @@
-package errors;
+package errors
 
 type Error interface {
 	error
@@ -6,16 +6,16 @@ type Error interface {
 }
 
 type StatusError struct {
-	Code int
+	Code    int
 	Message string
 	Payload interface{}
 }
 
-func (e StatusError)Error() string {
+func (e StatusError) Error() string {
 	return e.Message
 }
 
-func (e StatusError)GetCode() int {
+func (e StatusError) GetCode() int {
 	return e.Code
 }
 
