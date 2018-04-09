@@ -1,24 +1,24 @@
-package main; 
+package main
 
 import (
-	"github.com/go-redis/redis"
-	"github.com/gin-gonic/gin"
+	"aos/persistence"
+	"aos/secret"
 	"fmt"
-	"./secret"
-	"./persistence"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 )
 
-
 type ResponseObject struct {
-	Status int `json:"status"`
-	Message string `json:"message"`
-	Result interface{} `json:"result"`
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Result  interface{} `json:"result"`
 }
 
 // TODO: 处理HTTP响应包括错误的公共方法
 func Dump(c *gin.Context, err error, object interface{}) {
-	responseObject := ResponseObject {
+	responseObject := ResponseObject{
 		1,
 		err.Error(),
 		object,
@@ -30,15 +30,14 @@ func Dump(c *gin.Context, err error, object interface{}) {
 	}
 }
 
-
-func CreateSecretFromRequest(c *gin.Context)secret.Secret {
+func CreateSecretFromRequest(c *gin.Context) secret.Secret {
 	accessKey := c.PostForm("access_key")
 	if accessKey == "" {
 		accessKey = c.Param("access_key")
 	}
 	accessSecret := c.DefaultQuery("access_secret", "")
 
-	return secret.Secret {
+	return secret.Secret{
 		accessKey,
 		accessSecret,
 	}
@@ -55,10 +54,10 @@ func ResponseMiddleware() gin.HandlerFunc {
 }
 
 func main() {
-	client := redis.NewClient( & redis.Options {
-		Addr:"localhost:6379", 
-		Password:"", // no password set
-		DB:0, // use default DB
+	client := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
 	})
 
 	pong, err := client.Ping().Result()
@@ -66,7 +65,7 @@ func main() {
 
 	// TODO: 对象依赖配置放到专门的模块
 	var (
-		secretDAO = persistence.NewSecretDAO(client)
+		secretDAO           = persistence.NewSecretDAO(client)
 		secretServiceFacade = secret.NewSecretServiceFacadeImpl(
 			secretDAO,
 			secret.NewSecretFactory(),

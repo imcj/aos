@@ -1,17 +1,17 @@
-package secret; 
+package secret
 
 import (
+	"aos/errors"
 	"fmt"
-	"../errors"
 )
 
 // Service facade
 type SecretServiceFacadeImpl struct {
 	secretDAO SecretDAO
-	factory SecretFactory
+	factory   SecretFactory
 }
 
-func (s *SecretServiceFacadeImpl)Add(authenticated Secret)(*Secret, error) {
+func (s *SecretServiceFacadeImpl) Add(authenticated Secret) (*Secret, error) {
 	found, err := s.secretDAO.FindOne(authenticated.AccessKey)
 	if nil != err {
 		return nil, err
@@ -24,7 +24,7 @@ func (s *SecretServiceFacadeImpl)Add(authenticated Secret)(*Secret, error) {
 	return &newSecret, err
 }
 
-func (s *SecretServiceFacadeImpl)Authenticate(authenticated Secret)(bool, error) {
+func (s *SecretServiceFacadeImpl) Authenticate(authenticated Secret) (bool, error) {
 	fmt.Println("SecretServiceFacadeImpl.Authenticate")
 	found, err := s.secretDAO.FindOne(authenticated.AccessKey)
 
@@ -37,8 +37,8 @@ func (s *SecretServiceFacadeImpl)Authenticate(authenticated Secret)(bool, error)
 	return true, err
 }
 
-func NewSecretServiceFacadeImpl(secretDAO SecretDAO, factory SecretFactory)SecretServiceFacade {
-	return &SecretServiceFacadeImpl {
+func NewSecretServiceFacadeImpl(secretDAO SecretDAO, factory SecretFactory) SecretServiceFacade {
+	return &SecretServiceFacadeImpl{
 		secretDAO,
 		factory,
 	}
