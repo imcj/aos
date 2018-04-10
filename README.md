@@ -1,5 +1,5 @@
 # godep 使用
-```go
+```
 安装 go get github.com/tools/godep
 
 godep save 将项目中使用到的第三方库复制到项目的vendor目录下
@@ -10,7 +10,7 @@ godep restore godep会按照Godeps/Godeps.json内列表，依次执行go get -d 
 ```
 
 # grpc 使用
-```go
+```
 go get -u github.com/golang/protobuf/{proto,protoc-gen-go}
 
 // protoc --go_out=plugins=grpc:. helloworld.proto
