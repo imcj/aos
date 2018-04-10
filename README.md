@@ -29,5 +29,4 @@ ERROR:package google.golang.org/genproto/googleapis/rpc/status: unrecognized imp
 1、cd $GOPATH/src/google.golang.org
 2、git clone https://github.com/google/go-genproto
 3、mv -f go-genproto  genproto
-
 ```
