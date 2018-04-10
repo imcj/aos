@@ -5,7 +5,12 @@ import (
 	"aos/secret"
 	"fmt"
 	"net/http"
+	"os"
 
+	"github.com/apex/log"
+	"github.com/apex/log/handlers/graylog"
+	"github.com/apex/log/handlers/multi"
+	"github.com/apex/log/handlers/text"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 )
@@ -54,6 +59,20 @@ func ResponseMiddleware() gin.HandlerFunc {
 }
 
 func main() {
+
+	e, _ := graylog.New("udp://g02.graylog.gaodunwangxiao.com:5504")
+
+	t := text.New(os.Stderr)
+
+	log.SetHandler(multi.New(e, t))
+
+	ctx := log.WithFields(log.Fields{
+		"item":    "ginlog",
+		"message": "test",
+		"ahhh":    "xxxx",
+	})
+	ctx.Info("upload")
+
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "", // no password set
@@ -104,5 +123,5 @@ func main() {
 		})
 	})
 
-	router.Run(":3000")
+	router.Run(":6001")
 }
