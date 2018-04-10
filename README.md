@@ -9,7 +9,7 @@ godep restore godep会按照Godeps/Godeps.json内列表，依次执行go get -d 
 说明：关于无法安装golang.org下的库时， You can also manually git clone the repository to $GOPATH/src/golang.org/x/sys
 ```
 
-#grpc 使用
+# grpc 使用
 ```go
 go get -u github.com/golang/protobuf/{proto,protoc-gen-go}
 
