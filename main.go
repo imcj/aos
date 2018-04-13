@@ -124,7 +124,7 @@ func main() {
 
 	router.Use(ResponseMiddleware())
 
-	apiv1 := router.Group("/api/v1")
+	apiv1 := router.Group("/v1")
 
 	apiv1.GET("/secret/:access_key", getS)
 
@@ -133,12 +133,9 @@ func main() {
 
 // @Summary 获取S
 // @Produce  json
-// @Param id param int true "ID"
-// @Param name query string true "ID"
-// @Param state query int false "State"
-// @Param modified_by query string true "ModifiedBy"
-// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
-// @Router /api/v1/tags/{id} [put]
+// @Param access_key path string true "秘钥KEY"
+// @Success 200 {string} json "{"status": 1,"message": "","result": {"access_key": "xxx","access_secret": ""}}"
+// @Router /secret/{access_key} [get]
 func getS(c *gin.Context) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",

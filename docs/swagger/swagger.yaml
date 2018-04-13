@@ -9,29 +9,20 @@ info:
   title: Golang Gin API
   version: "1.0"
 paths:
-  /api/v1/tags/{id}:
-    put:
+  /secret/{access_key}:
+    get:
       parameters:
-      - {}
-      - description: ID
-        in: query
-        name: name
-        required: true
-        type: string
-      - description: State
-        in: query
-        name: state
-        type: integer
-      - description: ModifiedBy
-        in: query
-        name: modified_by
+      - description: 秘钥KEY
+        in: path
+        name: access_key
         required: true
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: '{"code":200,"data":{},"msg":"ok"}'
+          description: '{"status": 1,"message": "","result": {"access_key": "xxx","access_secret":
+            ""}}'
           schema:
             type: string
       summary: 获取S
