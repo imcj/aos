@@ -4,6 +4,15 @@
 	"GodepVersion": "v79",
 	"Deps": [
 		{
+			"ImportPath": "github.com/PuerkitoBio/purell",
+			"Comment": "v1.1.0-10-g975f537",
+			"Rev": "975f53781597ed779763b7b65566e74c4004d8de"
+		},
+		{
+			"ImportPath": "github.com/PuerkitoBio/urlesc",
+			"Rev": "de5bf2ad457846296e2031421a34e2568e304e35"
+		},
+		{
 			"ImportPath": "github.com/apex/log",
 			"Comment": "v1.0.0-9-gff0f669",
 			"Rev": "ff0f66940b829dc66c81dad34746d4349b83eb9e"
@@ -50,6 +59,22 @@
 			"ImportPath": "github.com/gin-gonic/gin/render",
 			"Comment": "v1.2-149-g6d913fc",
 			"Rev": "6d913fc343cfac80d656db5be67a0ffb1323ba0d"
+		},
+		{
+			"ImportPath": "github.com/go-openapi/jsonpointer",
+			"Rev": "3a0015ad55fa9873f41605d3e8f28cd279c32ab2"
+		},
+		{
+			"ImportPath": "github.com/go-openapi/jsonreference",
+			"Rev": "3fb327e6747da3043567ee86abd02bb6376b6be2"
+		},
+		{
+			"ImportPath": "github.com/go-openapi/spec",
+			"Rev": "370d9e047557906322be8396e77cb0376be6cb96"
+		},
+		{
+			"ImportPath": "github.com/go-openapi/swag",
+			"Rev": "811b1089cde9dad18d4d0c2d09fbdbf28dbd27a5"
 		},
 		{
 			"ImportPath": "github.com/go-redis/redis",
@@ -102,6 +127,18 @@
 			"Rev": "f89479f5c0d83b365504d632ab57390447bb406a"
 		},
 		{
+			"ImportPath": "github.com/mailru/easyjson/buffer",
+			"Rev": "8b799c424f57fa123fc63a99d6383bc6e4c02578"
+		},
+		{
+			"ImportPath": "github.com/mailru/easyjson/jlexer",
+			"Rev": "8b799c424f57fa123fc63a99d6383bc6e4c02578"
+		},
+		{
+			"ImportPath": "github.com/mailru/easyjson/jwriter",
+			"Rev": "8b799c424f57fa123fc63a99d6383bc6e4c02578"
+		},
+		{
 			"ImportPath": "github.com/mattn/go-isatty",
 			"Comment": "v0.0.3-7-g6ca4dbf",
 			"Rev": "6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c"
@@ -127,13 +164,67 @@
 			"Rev": "36e9d2ebbde5e3f13ab2e25625fd453271d6522e"
 		},
 		{
+			"ImportPath": "github.com/swaggo/gin-swagger",
+			"Rev": "1510a6d46f01820f88b3a62d13353ccc8c6faa8e"
+		},
+		{
+			"ImportPath": "github.com/swaggo/gin-swagger/swaggerFiles",
+			"Rev": "1510a6d46f01820f88b3a62d13353ccc8c6faa8e"
+		},
+		{
+			"ImportPath": "github.com/swaggo/swag",
+			"Comment": "v.1.2.0-17-g53f99ea",
+			"Rev": "53f99ea7b455e30353a80ffb40d3ff941bd1fe06"
+		},
+		{
 			"ImportPath": "github.com/ugorji/go/codec",
 			"Comment": "v1.1-18-g6a0f936",
 			"Rev": "6a0f936d9527cafa42a8acfa0bf2d6cc94bb6024"
 		},
 		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
+		},
+		{
+			"ImportPath": "golang.org/x/net/idna",
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
+		},
+		{
+			"ImportPath": "golang.org/x/net/webdav",
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
+		},
+		{
+			"ImportPath": "golang.org/x/net/webdav/internal/xml",
+			"Rev": "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
+		},
+		{
 			"ImportPath": "golang.org/x/sys/unix",
 			"Rev": "3b87a42e500a6dc65dae1a55d0b641295971163e"
+		},
+		{
+			"ImportPath": "golang.org/x/text/secure/bidirule",
+			"Comment": "v0.3.0-47-g7922cc4",
+			"Rev": "7922cc490dd5a7dbaa7fd5d6196b49db59ac042f"
+		},
+		{
+			"ImportPath": "golang.org/x/text/transform",
+			"Comment": "v0.3.0-47-g7922cc4",
+			"Rev": "7922cc490dd5a7dbaa7fd5d6196b49db59ac042f"
+		},
+		{
+			"ImportPath": "golang.org/x/text/unicode/bidi",
+			"Comment": "v0.3.0-47-g7922cc4",
+			"Rev": "7922cc490dd5a7dbaa7fd5d6196b49db59ac042f"
+		},
+		{
+			"ImportPath": "golang.org/x/text/unicode/norm",
+			"Comment": "v0.3.0-47-g7922cc4",
+			"Rev": "7922cc490dd5a7dbaa7fd5d6196b49db59ac042f"
+		},
+		{
+			"ImportPath": "golang.org/x/text/width",
+			"Comment": "v0.3.0-47-g7922cc4",
+			"Rev": "7922cc490dd5a7dbaa7fd5d6196b49db59ac042f"
 		},
 		{
 			"ImportPath": "gopkg.in/go-playground/validator.v8",

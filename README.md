@@ -28,4 +28,8 @@ gopm 安装：$ go get -u github.com/gpmgo/gopm
 $ go get -u github.com/swaggo/gin-swagger
 
 $ go get -u github.com/swaggo/gin-swagger/swaggerFiles
+
+使用
+cd 项目目录
+swag init 
 ```

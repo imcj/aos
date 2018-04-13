@@ -7,12 +7,16 @@ import (
 	"net/http"
 	"os"
 
+	_ "aos/docs"
+
 	"github.com/apex/log"
 	"github.com/apex/log/handlers/graylog"
 	"github.com/apex/log/handlers/multi"
 	"github.com/apex/log/handlers/text"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 type ResponseObject struct {
@@ -102,6 +106,8 @@ func main() {
 
 	router := gin.Default()
 
+	// gin.SetMode()
+
 	// TODO: Controller 放置到专门的模块内
 	router.POST("/secret", func(c *gin.Context) {
 		authentication := CreateSecretFromRequest(c)
@@ -113,6 +119,8 @@ func main() {
 
 		c.JSON(http.StatusOK, newSecret)
 	})
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Use(ResponseMiddleware())
 
