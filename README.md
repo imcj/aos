@@ -30,6 +30,9 @@ $ go get -u github.com/swaggo/gin-swagger
 $ go get -u github.com/swaggo/gin-swagger/swaggerFiles
 
 使用
-cd 项目目录
+$ cd $GOPATH/src/aos
 swag init 
+地址：
+http://127.0.0.1:6001/swagger/index.html
+
 ```
