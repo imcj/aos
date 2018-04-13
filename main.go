@@ -58,6 +58,15 @@ func ResponseMiddleware() gin.HandlerFunc {
 	}
 }
 
+// @title Golang Gin API
+// @version 1.0
+// @description An example of gin
+// @termsOfService 127.0.0.1:6001
+
+// @license.name MIT
+// @license.url 127.0.0.1:6001
+
+// @BasePath /v1
 func main() {
 
 	e, _ := graylog.New("udp://g02.graylog.gaodunwangxiao.com:5504")
@@ -106,22 +115,49 @@ func main() {
 	})
 
 	router.Use(ResponseMiddleware())
-	router.GET("/secret/:access_key", func(c *gin.Context) {
-		fmt.Println("GET /secret/:access_key")
 
-		authentication := CreateSecretFromRequest(c)
-		fmt.Println("Access key is " + authentication.AccessKey)
-		fmt.Println("Access secret is " + authentication.AccessSecret)
-		_, err := secretServiceFacade.Authenticate(authentication)
-		if nil != err {
-			fmt.Println(err)
-		}
-		c.JSON(200, ResponseObject{
-			1,
-			"",
-			authentication,
-		})
-	})
+	apiv1 := router.Group("/api/v1")
+
+	apiv1.GET("/secret/:access_key", getS)
 
 	router.Run(":6001")
+}
+
+// @Summary 获取S
+// @Produce  json
+// @Param id param int true "ID"
+// @Param name query string true "ID"
+// @Param state query int false "State"
+// @Param modified_by query string true "ModifiedBy"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags/{id} [put]
+func getS(c *gin.Context) {
+	client := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	// TODO: 对象依赖配置放到专门的模块
+	var (
+		secretDAO           = persistence.NewSecretDAO(client)
+		secretServiceFacade = secret.NewSecretServiceFacadeImpl(
+			secretDAO,
+			secret.NewSecretFactory(),
+		)
+	)
+
+	fmt.Println("GET /secret/:access_key")
+
+	authentication := CreateSecretFromRequest(c)
+	fmt.Println("Access key is " + authentication.AccessKey)
+	fmt.Println("Access secret is " + authentication.AccessSecret)
+	_, err := secretServiceFacade.Authenticate(authentication)
+	if nil != err {
+		fmt.Println(err)
+	}
+	c.JSON(200, ResponseObject{
+		1,
+		"",
+		authentication,
+	})
 }

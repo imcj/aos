@@ -1,0 +1,38 @@
+basePath: /v1
+info:
+  contact: {}
+  description: An example of gin
+  license:
+    name: MIT
+    url: 127.0.0.1:6001
+  termsOfService: 127.0.0.1:6001
+  title: Golang Gin API
+  version: "1.0"
+paths:
+  /api/v1/tags/{id}:
+    put:
+      parameters:
+      - {}
+      - description: ID
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: State
+        in: query
+        name: state
+        type: integer
+      - description: ModifiedBy
+        in: query
+        name: modified_by
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+      summary: 获取S
+swagger: "2.0"
