@@ -1,9 +1,65 @@
-package controller;
+package controller
 
 import (
+	"aos/secret"
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
+type ResponseObject struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Result  interface{} `json:"result"`
+}
+
 func AddNewSecret(c *gin.Context) {
-	
+
+}
+
+// @Summary 获取S
+// @Produce  json
+// @Param access_key path string true "秘钥KEY"
+// @Success 200 {string} json "{"status": 1,"message": "","result": {"access_key": "xxx","access_secret": ""}}"
+// @Router /secret/{access_key} [get]
+func GetS(c *gin.Context) {
+	// client := redis.NewClient(&redis.Options{
+	// 	Addr:     "localhost:6379",
+	// 	Password: "", // no password set
+	// 	DB:       0,  // use default DB
+	// })
+	// TODO: 对象依赖配置放到专门的模块
+	// var (
+	// 	secretDAO           = persistence.NewSecretDAO(client)
+	// 	secretServiceFacade = secret.NewSecretServiceFacadeImpl(
+	// 		secretDAO,
+	// 		secret.NewSecretFactory(),
+	// 	)
+	// )
+
+	authentication := CreateSecretFromRequest(c)
+	fmt.Println("Access key is " + authentication.AccessKey)
+	fmt.Println("Access secret is " + authentication.AccessSecret)
+	// _, err := secretServiceFacade.Authenticate(authentication)
+	// if nil != err {
+	// 	fmt.Println(err)
+	// }
+	c.JSON(200, ResponseObject{
+		1,
+		"",
+		authentication,
+	})
+}
+
+func CreateSecretFromRequest(c *gin.Context) secret.Secret {
+	accessKey := c.PostForm("access_key")
+	if accessKey == "" {
+		accessKey = c.Param("access_key")
+	}
+	accessSecret := c.DefaultQuery("access_secret", "")
+
+	return secret.Secret{
+		accessKey,
+		accessSecret,
+	}
 }

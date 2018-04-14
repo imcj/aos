@@ -1,22 +1,19 @@
 package main
 
 import (
-	"aos/persistence"
+	"aos/routers"
 	"aos/secret"
 	"fmt"
+	"log"
 	"net/http"
-	"os"
+	"syscall"
 
 	_ "aos/docs"
 
-	"github.com/apex/log"
-	"github.com/apex/log/handlers/graylog"
-	"github.com/apex/log/handlers/multi"
-	"github.com/apex/log/handlers/text"
+	"aos/pkg/setting"
+
+	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis"
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 type ResponseObject struct {
@@ -73,96 +70,65 @@ func ResponseMiddleware() gin.HandlerFunc {
 // @BasePath /v1
 func main() {
 
-	e, _ := graylog.New("udp://g02.graylog.gaodunwangxiao.com:5504")
+	endless.DefaultReadTimeOut = setting.ReadTimeout
+	endless.DefaultWriteTimeOut = setting.WriteTimeout
+	endless.DefaultMaxHeaderBytes = 1 << 20
+	endPoint := fmt.Sprintf(":%d", setting.HTTPPort)
 
-	t := text.New(os.Stderr)
-
-	log.SetHandler(multi.New(e, t))
-
-	ctx := log.WithFields(log.Fields{
-		"item":    "ginlog",
-		"message": "test",
-		"ahhh":    "xxxx",
-	})
-	ctx.Info("upload")
-
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-
-	pong, err := client.Ping().Result()
-	fmt.Println(pong, err)
-
-	// TODO: 对象依赖配置放到专门的模块
-	var (
-		secretDAO           = persistence.NewSecretDAO(client)
-		secretServiceFacade = secret.NewSecretServiceFacadeImpl(
-			secretDAO,
-			secret.NewSecretFactory(),
-		)
-	)
-
-	router := gin.Default()
-
-	// gin.SetMode()
-
-	// TODO: Controller 放置到专门的模块内
-	router.POST("/secret", func(c *gin.Context) {
-		authentication := CreateSecretFromRequest(c)
-
-		newSecret, err := secretServiceFacade.Add(authentication)
-		if nil != err {
-			fmt.Println(err)
-		}
-
-		c.JSON(http.StatusOK, newSecret)
-	})
-
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	router.Use(ResponseMiddleware())
-
-	apiv1 := router.Group("/v1")
-
-	apiv1.GET("/secret/:access_key", getS)
-
-	router.Run(":6001")
-}
-
-// @Summary 获取S
-// @Produce  json
-// @Param access_key path string true "秘钥KEY"
-// @Success 200 {string} json "{"status": 1,"message": "","result": {"access_key": "xxx","access_secret": ""}}"
-// @Router /secret/{access_key} [get]
-func getS(c *gin.Context) {
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-	// TODO: 对象依赖配置放到专门的模块
-	var (
-		secretDAO           = persistence.NewSecretDAO(client)
-		secretServiceFacade = secret.NewSecretServiceFacadeImpl(
-			secretDAO,
-			secret.NewSecretFactory(),
-		)
-	)
-
-	fmt.Println("GET /secret/:access_key")
-
-	authentication := CreateSecretFromRequest(c)
-	fmt.Println("Access key is " + authentication.AccessKey)
-	fmt.Println("Access secret is " + authentication.AccessSecret)
-	_, err := secretServiceFacade.Authenticate(authentication)
-	if nil != err {
-		fmt.Println(err)
+	server := endless.NewServer(endPoint, routers.InitRouter())
+	server.BeforeBegin = func(add string) {
+		fmt.Println("Actual pid is %d", syscall.Getpid())
 	}
-	c.JSON(200, ResponseObject{
-		1,
-		"",
-		authentication,
-	})
+
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Printf("Server err: %v", err)
+	}
+
+	// // setting.Logger.Info("I am tester shengji")
+
+	// client := redis.NewClient(&redis.Options{
+	// 	Addr:     "localhost:6379",
+	// 	Password: "", // no password set
+	// 	DB:       0,  // use default DB
+	// })
+
+	// pong, err := client.Ping().Result()
+	// fmt.Println(pong, err)
+
+	// // TODO: 对象依赖配置放到专门的模块
+	// var (
+	// 	secretDAO           = persistence.NewSecretDAO(client)
+	// 	secretServiceFacade = secret.NewSecretServiceFacadeImpl(
+	// 		secretDAO,
+	// 		secret.NewSecretFactory(),
+	// 	)
+	// )
+
+	// router := gin.Default()
+
+	// gin.SetMode(setting.RunMode)
+
+	// // TODO: Controller 放置到专门的模块内
+	// router.POST("/secret", func(c *gin.Context) {
+	// 	authentication := CreateSecretFromRequest(c)
+
+	// 	newSecret, err := secretServiceFacade.Add(authentication)
+	// 	if nil != err {
+	// 		fmt.Println(err)
+	// 	}
+
+	// 	c.JSON(http.StatusOK, newSecret)
+	// })
+
+	// router.Use(ResponseMiddleware())
+	// router.Use(logs.Logger())
+
+	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// apiv1 := router.Group("/v1")
+
+	// apiv1.GET("/secret/:access_key", getS)
+
+	// router.Run(":6001")
 }

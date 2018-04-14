@@ -37,6 +37,10 @@
 			"Rev": "3dd8b1cba42bfeb69fd0408b7fd1c3c345b2aba6"
 		},
 		{
+			"ImportPath": "github.com/fvbock/endless",
+			"Rev": "447134032cb6a86814f570257390a379982dfc61"
+		},
+		{
 			"ImportPath": "github.com/gin-contrib/sse",
 			"Rev": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
 		},
@@ -61,6 +65,11 @@
 			"Rev": "6d913fc343cfac80d656db5be67a0ffb1323ba0d"
 		},
 		{
+			"ImportPath": "github.com/go-ini/ini",
+			"Comment": "v1.35.0",
+			"Rev": "ace140f73450505f33e8b8418216792275ae82a7"
+		},
+		{
 			"ImportPath": "github.com/go-openapi/jsonpointer",
 			"Rev": "3a0015ad55fa9873f41605d3e8f28cd279c32ab2"
 		},
@@ -75,46 +84,6 @@
 		{
 			"ImportPath": "github.com/go-openapi/swag",
 			"Rev": "811b1089cde9dad18d4d0c2d09fbdbf28dbd27a5"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis/internal",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis/internal/consistenthash",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis/internal/hashtag",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis/internal/pool",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis/internal/proto",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis/internal/singleflight",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
-		},
-		{
-			"ImportPath": "github.com/go-redis/redis/internal/util",
-			"Comment": "v6.10.2",
-			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/proto",
