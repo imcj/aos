@@ -86,6 +86,46 @@
 			"Rev": "811b1089cde9dad18d4d0c2d09fbdbf28dbd27a5"
 		},
 		{
+			"ImportPath": "github.com/go-redis/redis",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/consistenthash",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/hashtag",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/pool",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/proto",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/singleflight",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/util",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Comment": "v1.0.0-1-gbbd03ef",
 			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"

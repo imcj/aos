@@ -1,0 +1,80 @@
+package setting
+
+import (
+	"os"
+	"strings"
+	"time"
+
+	"github.com/apex/log"
+	"github.com/apex/log/handlers/graylog"
+	"github.com/apex/log/handlers/multi"
+	"github.com/apex/log/handlers/text"
+	"github.com/go-ini/ini"
+)
+
+var (
+	Cfg *ini.File
+
+	RunMode string
+
+	HTTPPort     int
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
+
+	PageSize  int
+	JwtSecret string
+	Logger    *log.Entry
+)
+
+func init() {
+	var err error
+	Cfg, err = ini.Load("conf/app.ini")
+	if err != nil {
+		// log.Fatalf("Fail to parse 'conf/app.ini': %v", err)
+	}
+	LoadBase()
+	LoadServer()
+	LoadApp()
+}
+
+func LoadBase() {
+	graylogInfo, _ := Cfg.GetSection("log")
+	e, _ := graylog.New(graylogInfo.Key("LOG_UDP").MustString("udp://g02.graylog.gaodunwangxiao.com:5504"))
+	t := text.New(os.Stderr)
+	log.SetHandler(multi.New(e, t))
+	fields := make(log.Fields)
+	grayFields := graylogInfo.Key("LOG_FIELDS").MustString("item:ginlog,what:who")
+	grayFieldsArray := strings.Split(grayFields, ",")
+	if len(grayFieldsArray) > 0 {
+		for i := 0; i < len(grayFieldsArray); i++ {
+			temp := strings.Split(grayFieldsArray[i], ":")
+			if len(temp) > 1 {
+				fields[string(temp[0])] = temp[1]
+			}
+		}
+	}
+	Logger = log.WithFields(fields)
+}
+
+func LoadServer() {
+	sec, err := Cfg.GetSection("server")
+	if err != nil {
+		Logger.Fatalf("Fail to get section 'server': %v", err)
+	}
+
+	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
+
+	HTTPPort = sec.Key("HTTP_PORT").MustInt(8000)
+	ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
+	WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
+}
+
+func LoadApp() {
+	sec, err := Cfg.GetSection("app")
+	if err != nil {
+		Logger.Fatalf("Fail to get section 'app': %v", err)
+	}
+
+	// JwtSecret = sec.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
+	PageSize = sec.Key("PAGE_SIZE").MustInt(10)
+}
