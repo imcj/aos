@@ -38,6 +38,10 @@ func init() {
 }
 
 func LoadBase() {
+
+}
+
+func GrayLog(newFields map[string]interface{}) *log.Entry {
 	graylogInfo, _ := Cfg.GetSection("log")
 	e, _ := graylog.New(graylogInfo.Key("LOG_UDP").MustString("udp://g02.graylog.gaodunwangxiao.com:5504"))
 	t := text.New(os.Stderr)
@@ -53,7 +57,15 @@ func LoadBase() {
 			}
 		}
 	}
-	Logger = log.WithFields(fields)
+
+	if newFields != nil {
+		for k, v := range newFields {
+			fields[k] = v
+		}
+	}
+	level := graylogInfo.Key("LOG_LEVEL").MustInt(-1)
+	log.SetLevel(log.Level(level))
+	return log.WithFields(fields)
 }
 
 func LoadServer() {

@@ -1,8 +1,8 @@
 package controller
 
 import (
+	"aos/pkg/setting"
 	"aos/secret"
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,10 +36,13 @@ func GetS(c *gin.Context) {
 	// 		secret.NewSecretFactory(),
 	// 	)
 	// )
+	// setting.Logger.Info("xxxxxxxx")
+	// setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("22222")
+	setting.GrayLog(nil).Info("3333")
 
 	authentication := CreateSecretFromRequest(c)
-	fmt.Println("Access key is " + authentication.AccessKey)
-	fmt.Println("Access secret is " + authentication.AccessSecret)
+	// fmt.Println("Access key is " + authentication.AccessKey)
+	// fmt.Println("Access secret is " + authentication.AccessSecret)
 	// _, err := secretServiceFacade.Authenticate(authentication)
 	// if nil != err {
 	// 	fmt.Println(err)
