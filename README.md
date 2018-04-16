@@ -38,14 +38,14 @@ http://127.0.0.1:6001/swagger/index.html
 ```
 # Logger 使用
 ```
-    暂时支持 graylog
-    配置conf/app.ini 的log配置 LOG_FIELDS：打印到 graylog 的查询字段
-    Level = enum [-1,0,1,2,3,4] => ["all","debug","info","warn","error","fatal"]
-    
-    引入 "aos/pkg/setting"
-    eg:（Debug、Info、Warn、Error、Fatal）、（Debugf、Infof、Warnf、Errorf、Fatalf）
-    setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("string 类型")
-    setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("string 类型",interface{}")
+暂时支持 graylog
+配置conf/app.ini 的log配置 LOG_FIELDS：打印到 graylog 的查询字段
+Level = enum [-1,0,1,2,3,4] => ["all","debug","info","warn","error","fatal"]
 
-    说明：setting.GrayLog(map[string]interface{}{"what": "I am a tester"}) 会得到一个grayLog的实例，后期会支持app.ini的参数配置，得到不同的实例,不需要额外的字段，可使用setting.GrayLog(nil)生成实例
+引入 "aos/pkg/setting"
+eg:（Debug、Info、Warn、Error、Fatal）、（Debugf、Infof、Warnf、Errorf、Fatalf）
+setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("string 类型")
+setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("string 类型",interface{}")
+
+说明：setting.GrayLog(map[string]interface{}{"what": "I am a tester"}) 会得到一个grayLog的实例，后期会支持app.ini的参数配置，得到不同的实例,不需要额外的字段，可使用setting.GrayLog(nil)生成实例
 ```
