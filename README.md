@@ -58,6 +58,7 @@ errors.GetInfo()[errors.SYSERR] // code 对应的值
 TODO:进度封装，方便使用
 ```
 # TODO list
+- [ ] SQL 驱动与ORM选取
 - [ ] SQL 日志打印到graylog
 - [ ] 输出日志打印到graylog
 - [ ] Http请求
