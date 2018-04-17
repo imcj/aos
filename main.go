@@ -60,6 +60,13 @@ func ResponseMiddleware() gin.HandlerFunc {
 	}
 }
 
+func preSigUsr1() {
+	fmt.Println("endless.PRE_SIGNAL ....")
+}
+func postSigUsr1() {
+	fmt.Println("endless.POST_SIGNAL ... ")
+}
+
 // @title Golang Gin API
 // @version 1.0
 // @description An example of gin
@@ -81,6 +88,13 @@ func main() {
 		fmt.Println("Actual pid is %d", syscall.Getpid())
 	}
 
+	// server.SignalHooks[endless.PRE_SIGNAL][syscall.SIGUSR1] = append(
+	// 	server.SignalHooks[endless.PRE_SIGNAL][syscall.SIGUSR1],
+	// 	preSigUsr1)
+	// server.SignalHooks[endless.POST_SIGNAL][syscall.SIGUSR1] = append(
+	// 	server.SignalHooks[endless.POST_SIGNAL][syscall.SIGUSR1],
+	// 	postSigUsr1)
+
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Printf("Server err: %v", err)
@@ -89,13 +103,24 @@ func main() {
 	// // setting.Logger.Info("I am tester shengji")
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     "dev.redis.gaodunwangxiao.com:6379",
+		Password: "gaodun.com", // no password set
+		DB:       0,            // use default DB
 	})
 
 	pong, err := client.Ping().Result()
-	fmt.Println(pong, err)
+	fmt.Println("client pong：", pong, err)
+
+	err = client.Set("key", "valueStone", 0).Err()
+	if err != nil {
+		panic(err)
+	}
+
+	val, err := client.Get("key").Result()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("key", val)
 
 	// // TODO: 对象依赖配置放到专门的模块
 	// var (

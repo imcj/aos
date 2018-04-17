@@ -6,9 +6,9 @@ type Error interface {
 }
 
 type StatusError struct {
-	Code    int
-	Message string
-	Payload interface{}
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
+	Result  interface{} `json:"result"`
 }
 
 func (e StatusError) Error() string {

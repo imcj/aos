@@ -49,3 +49,18 @@ setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("string �
 
 说明：setting.GrayLog(map[string]interface{}{"what": "I am a tester"}) 会得到一个grayLog的实例，后期会支持app.ini的参数配置，得到不同的实例,不需要额外的字段，可使用setting.GrayLog(nil)生成实例
 ```
+# Code码使用
+```
+"aos/errors"
+eg:
+errors.SYSERR // code码
+errors.GetInfo()[errors.SYSERR] // code 对应的值
+TODO:进度封装，方便使用
+```
+# TODO list
+- [] SQL 日志打印到graylog
+- [] 输出日志打印到graylog
+- [] Http请求
+- [] Session
+- [] Redis 封装
+- [] DDD设计实现

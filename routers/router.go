@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"aos/middleware/panicHandle"
+
 	"github.com/gin-gonic/gin"
 
 	_ "aos/docs"
@@ -19,6 +21,9 @@ func InitRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(logs.Logger())
 	r.Use(gin.Recovery())
+
+	r.Use(panicHandle.CatchError())
+
 	gin.SetMode(setting.RunMode)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

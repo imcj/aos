@@ -41,13 +41,18 @@ func LoadBase() {
 
 }
 
-func GrayLog(newFields map[string]interface{}) *log.Entry {
+func GrayLog(newFields ...map[string]interface{}) *log.Entry {
 	graylogInfo, _ := Cfg.GetSection("log")
 	e, _ := graylog.New(graylogInfo.Key("LOG_UDP").MustString("udp://g02.graylog.gaodunwangxiao.com:5504"))
-	t := text.New(os.Stderr)
-	log.SetHandler(multi.New(e, t))
+	isShowConsole := graylogInfo.Key("IS_SHOW_CONSOLE").MustBool(false)
+	if isShowConsole {
+		t := text.New(os.Stderr)
+		log.SetHandler(multi.New(e, t))
+	}
+	log.SetHandler(multi.New(e))
+
 	fields := make(log.Fields)
-	grayFields := graylogInfo.Key("LOG_FIELDS").MustString("item:ginlog,what:who")
+	grayFields := graylogInfo.Key("LOG_FIELDS").MustString("item:ginlog")
 	grayFieldsArray := strings.Split(grayFields, ",")
 	if len(grayFieldsArray) > 0 {
 		for i := 0; i < len(grayFieldsArray); i++ {
@@ -59,7 +64,7 @@ func GrayLog(newFields map[string]interface{}) *log.Entry {
 	}
 
 	if newFields != nil {
-		for k, v := range newFields {
+		for k, v := range newFields[0] {
 			fields[k] = v
 		}
 	}

@@ -1,17 +1,10 @@
 package controller
 
 import (
-	"aos/pkg/setting"
 	"aos/secret"
 
 	"github.com/gin-gonic/gin"
 )
-
-type ResponseObject struct {
-	Status  int         `json:"status"`
-	Message string      `json:"message"`
-	Result  interface{} `json:"result"`
-}
 
 func AddNewSecret(c *gin.Context) {
 
@@ -23,6 +16,8 @@ func AddNewSecret(c *gin.Context) {
 // @Success 200 {string} json "{"status": 1,"message": "","result": {"access_key": "xxx","access_secret": ""}}"
 // @Router /secret/{access_key} [get]
 func GetS(c *gin.Context) {
+	// var s map[string]string
+	// s["a"] = "2"
 	// client := redis.NewClient(&redis.Options{
 	// 	Addr:     "localhost:6379",
 	// 	Password: "", // no password set
@@ -38,7 +33,7 @@ func GetS(c *gin.Context) {
 	// )
 	// setting.Logger.Info("xxxxxxxx")
 	// setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("22222")
-	setting.GrayLog(nil).Info("3333")
+	// setting.GrayLog().Info("33335555")
 
 	authentication := CreateSecretFromRequest(c)
 	// fmt.Println("Access key is " + authentication.AccessKey)
