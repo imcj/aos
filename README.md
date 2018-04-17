@@ -62,5 +62,7 @@ TODO:进度封装，方便使用
 - [ ] 输出日志打印到graylog
 - [ ] Http请求
 - [ ] Session
+- [ ] Request-x-id
+- [ ] Consul 读取
 - [ ] Redis 封装
 - [ ] DDD设计实现
