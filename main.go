@@ -14,7 +14,6 @@ import (
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis"
 )
 
 type ResponseObject struct {
@@ -101,26 +100,6 @@ func main() {
 	}
 
 	// // setting.Logger.Info("I am tester shengji")
-
-	client := redis.NewClient(&redis.Options{
-		Addr:     "dev.redis.gaodunwangxiao.com:6379",
-		Password: "gaodun.com", // no password set
-		DB:       0,            // use default DB
-	})
-
-	pong, err := client.Ping().Result()
-	fmt.Println("client pong：", pong, err)
-
-	err = client.Set("key", "valueStone", 0).Err()
-	if err != nil {
-		panic(err)
-	}
-
-	val, err := client.Get("key").Result()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("key", val)
 
 	// // TODO: 对象依赖配置放到专门的模块
 	// var (

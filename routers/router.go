@@ -45,8 +45,10 @@ func InitRouter() *gin.Engine {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	testApi := new(controller.TestApi)
+
 	c1 := r.Group("/v1")
-	c1.GET("/secret/:access_key", controller.GetS)
+	c1.GET("/secret/:access_key", testApi.GetS)
 
 	return r
 }
