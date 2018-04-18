@@ -23,8 +23,9 @@ var (
 
 	PageSize  int
 	JwtSecret string
-	Logger    *log.Entry
 )
+
+var Logger *log.Entry
 
 func init() {
 	var err error
@@ -48,8 +49,9 @@ func GrayLog(newFields ...map[string]interface{}) *log.Entry {
 	if isShowConsole {
 		t := text.New(os.Stderr)
 		log.SetHandler(multi.New(e, t))
+	} else {
+		log.SetHandler(multi.New(e))
 	}
-	log.SetHandler(multi.New(e))
 
 	fields := make(log.Fields)
 	grayFields := graylogInfo.Key("LOG_FIELDS").MustString("item:ginlog")
@@ -76,7 +78,7 @@ func GrayLog(newFields ...map[string]interface{}) *log.Entry {
 func LoadServer() {
 	sec, err := Cfg.GetSection("server")
 	if err != nil {
-		Logger.Fatalf("Fail to get section 'server': %v", err)
+		// Logger.Fatalf("Fail to get section 'server': %v", err)
 	}
 
 	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
@@ -89,7 +91,7 @@ func LoadServer() {
 func LoadApp() {
 	sec, err := Cfg.GetSection("app")
 	if err != nil {
-		Logger.Fatalf("Fail to get section 'app': %v", err)
+		// Logger.Fatalf("Fail to get section 'app': %v", err)
 	}
 
 	// JwtSecret = sec.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")

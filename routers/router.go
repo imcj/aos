@@ -1,12 +1,14 @@
 package routers
 
 import (
+	"aos/middleware/logs"
 	"aos/middleware/panicHandle"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	_ "aos/docs"
-	"aos/middleware/logs"
 
 	"aos/pkg/setting"
 
@@ -19,9 +21,24 @@ import (
 func InitRouter() *gin.Engine {
 
 	r := gin.New()
-	r.Use(logs.Logger())
-	r.Use(gin.Recovery())
 
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		// AllowOriginFunc: func(origin string) bool {
+		// 	return origin == "https://xxx.com"
+		// },
+		MaxAge: 12 * time.Hour,
+	}))
+
+	setting.Logger = setting.GrayLog()
+
+	r.Use(logs.Logger(setting.Logger))
+
+	r.Use(gin.Recovery())
 	r.Use(panicHandle.CatchError())
 
 	gin.SetMode(setting.RunMode)

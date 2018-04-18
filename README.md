@@ -44,10 +44,10 @@ Level = enum [-1,0,1,2,3,4] => ["all","debug","info","warn","error","fatal"]
 
 引入 "aos/pkg/setting"
 eg:（Debug、Info、Warn、Error、Fatal）、（Debugf、Infof、Warnf、Errorf、Fatalf）
-setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("string 类型")
-setting.GrayLog(map[string]interface{}{"what": "I am a tester"}).Info("string 类型",interface{}")
+setting.Logger.Info("string 类型")
+setting.Logger.Info("string 类型",interface{}")
 
-说明：setting.GrayLog(map[string]interface{}{"what": "I am a tester"}) 会得到一个grayLog的实例，后期会支持app.ini的参数配置，得到不同的实例,不需要额外的字段，可使用setting.GrayLog(nil)生成实例
+说明：setting.Logger 会得到一个grayLog的实例，后期会支持app.ini的参数配置，得到不同的实例,不需要额外的字段，可使用setting.Logger.WithField()生成实例
 ```
 # Code码使用
 ```
@@ -57,13 +57,82 @@ errors.SYSERR // code码
 errors.GetInfo()[errors.SYSERR] // code 对应的值
 TODO:进度封装，方便使用
 ```
+# Gin Session Middleware
+```GO
+package main
+
+import (
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	r := gin.Default()
+    store := sessions.NewCookieStore([]byte("secret")) // Cookie
+    // store, _ := sessions.NewRedisStore(10, "tcp", "localhost:6379", "", []byte("secret")) // Redis 
+	// store := sessions.NewMemcacheStore(memcache.New("localhost:11211"), "", []byte("secret"))
+    // Mongo
+    // session, err := mgo.Dial("localhost:27017/test")
+	// if err != nil {
+	// 	// handle err
+	// }
+	// c := session.DB("").C("sessions")
+	// store := sessions.NewMongoStore(c, 3600, true, []byte("secret"))
+	r.Use(sessions.Sessions("mysession", store))
+
+	r.GET("/incr", func(c *gin.Context) {
+		session := sessions.Default(c)
+		var count int
+		v := session.Get("count")
+		if v == nil {
+			count = 0
+		} else {
+			count = v.(int)
+			count++
+		}
+		session.Set("count", count)
+		session.Save()
+		c.JSON(200, gin.H{"count": count})
+	})
+	r.Run(":8000")
+}
+```
+
+# Sentry
+```GO
+package main
+
+import (
+	"github.com/getsentry/raven-go"
+	"github.com/gin-contrib/sentry"
+	"github.com/gin-gonic/gin"
+)
+
+func init() {
+	raven.SetDSN("https://<key>:<secret>@app.getsentry.com/<project>")
+}
+
+func main() {
+	r := gin.Default()
+	r.Use(sentry.Recovery(raven.DefaultClient, false))
+	// only send crash reporting
+	// r.Use(sentry.Recovery(raven.DefaultClient, true))
+	r.Run(":8080")
+}
+```
+
 # TODO list
+- [x] Panic 处理
+- [x] sentry 日志
+- [x] 加上Swagger
+- [x] 支持Cors处理
 - [ ] SQL 驱动与ORM选取
 - [ ] SQL 日志打印到graylog
-- [ ] 输出日志打印到graylog
+- [x] 输出日志打印到graylog
 - [ ] Http请求
-- [ ] Session
-- [ ] Request-x-id
+- [x] Session
+- [x] X-Response-ID
 - [ ] Consul 读取
 - [ ] Redis 封装
 - [ ] DDD设计实现
+- [x] 状态码统一管理

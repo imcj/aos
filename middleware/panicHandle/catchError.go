@@ -18,7 +18,7 @@ func CatchError() gin.HandlerFunc {
 		defer func() {
 			if err := recover(); err != nil {
 				stackInfo := "堆栈信息：" + string(debug.Stack())
-				setting.GrayLog(map[string]interface{}{"stackInfo": stackInfo}).Infof("", stackInfo)
+				setting.Logger.WithField("stackInfo", stackInfo).Infof("", stackInfo)
 				c.JSON(200, errors.New(errors.SYSERR, errors.GetInfo()[errors.SYSERR]))
 
 				c.Abort()

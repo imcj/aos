@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"aos/pkg/setting"
 	"aos/secret"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,8 @@ func AddNewSecret(c *gin.Context) {
 // @Success 200 {string} json "{"status": 1,"message": "","result": {"access_key": "xxx","access_secret": ""}}"
 // @Router /secret/{access_key} [get]
 func GetS(c *gin.Context) {
+
+	setting.Logger.Info("ceshi huaalskjdasjd")
 	// var s map[string]string
 	// s["a"] = "2"
 	// client := redis.NewClient(&redis.Options{

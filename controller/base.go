@@ -5,3 +5,7 @@ type ResponseObject struct {
 	Message string      `json:"message"`
 	Result  interface{} `json:"result"`
 }
+
+// Base 基类
+type Base struct {
+}

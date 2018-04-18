@@ -41,6 +41,11 @@
 			"Rev": "447134032cb6a86814f570257390a379982dfc61"
 		},
 		{
+			"ImportPath": "github.com/gin-contrib/cors",
+			"Comment": "v1.2-10-gdf6cfb7",
+			"Rev": "df6cfb7ff4a38d694dfebd0868ecb3e956171366"
+		},
+		{
 			"ImportPath": "github.com/gin-contrib/sse",
 			"Rev": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
 		},
@@ -129,6 +134,11 @@
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Comment": "v1.0.0-1-gbbd03ef",
 			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
+		},
+		{
+			"ImportPath": "github.com/google/uuid",
+			"Comment": "0.2-21-gdec09d7",
+			"Rev": "dec09d789f3dba190787f8b4454c7d3c936fed9e"
 		},
 		{
 			"ImportPath": "github.com/json-iterator/go",
