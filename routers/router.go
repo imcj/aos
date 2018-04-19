@@ -49,6 +49,6 @@ func InitRouter() *gin.Engine {
 
 	c1 := r.Group("/v1")
 	c1.GET("/secret/:access_key", testApi.GetS)
-
+	c1.GET("/dbtest", testApi.GetDbTest)
 	return r
 }

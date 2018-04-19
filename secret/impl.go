@@ -1,7 +1,7 @@
 package secret
 
 import (
-	"aos/errors"
+	"aos/pkg/errors"
 	"fmt"
 )
 

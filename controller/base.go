@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"aos/errors"
+	"aos/pkg/errors"
 	"aos/pkg/setting"
 	"encoding/json"
 

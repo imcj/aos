@@ -25,6 +25,23 @@ var (
 	JwtSecret string
 )
 
+const (
+	confName      = "goada.gaodun.com"
+	TimeLayOut    = "2006-01-02"
+	TimeLayOutHIS = "2006-01-02 15:04:05"
+)
+
+var TimeTags = map[string]int{
+	"59f802c656142c6cea734ed5": 1,
+	"59f802c656142c6cea734ed6": 1,
+	"59f802c656142c6cea734ed7": 1,
+	"59f802c656142c6cea734ed8": 1,
+	"59f802c656142c6cea734edd": 1,
+	"5a32229f56142cfe942d5cd1": 1,
+	"5a32229f56142cfe942d5cd2": 1,
+	"5a32229f56142cfe942d5cd4": 1,
+}
+
 var Logger *log.Entry
 
 func init() {

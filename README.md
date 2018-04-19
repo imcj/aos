@@ -52,7 +52,7 @@ setting.Logger.Info("string 类型",interface{}")
 
 # Code码使用
 ```
-"aos/errors"
+"aos/pkg/errors"
 eg:
 errors.SYSERR // code码
 errors.GetInfo()[errors.SYSERR] // code 对应的值
@@ -69,11 +69,58 @@ host := consulData["PUBLIC_MYSQL_DB_HOST"]
 # Redis 使用
 ```Go
 import (
-	"aos/utils"
+	"aos/pkg/utils"
 )
 utils.RedisHandle.SetData("test1", "hhhhh", 0)
 utils.RedisHandle.GetData("test1")
 说明：现在只封装了SetData 和 GetData ，异常未处理，未打印到graylog中去
+```
+
+# Mysql 使用
+```Go
+参见:"aos/persistence/demo.go"
+类的结构
+import (
+	"aos/pkg/utils"
+	"github.com/go-xorm/xorm"
+)
+
+// GdSubject 科目表
+type GdSubject struct {
+	Id   int64  `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+// GdSubjectFac 工厂
+type GdSubjectFac struct {
+	Table        GdSubject
+	engine       *xorm.Engine
+	RowsSlicePtr []GdSubject
+}
+
+// NewGdSubjectFacFac 初始化
+func NewGdSubjectFacFac() *GdSubjectFac {
+	var fac GdSubjectFac
+	fac.engine, _ = utils.InitEng(0)
+	return &fac
+}
+
+// FindAll 查询所有
+func (myM *GdSubjectFac) FindAll(where string) error {
+	err := myM.engine.Where(where).Find(&(myM.RowsSlicePtr))
+	if err != nil {
+        //
+	}
+	return err
+}
+
+使用
+var subjectModel = persistence.NewGdSubjectFacFac()
+    subjectModel.FindAll("")
+subjectModel.RowsSlicePtr // 结果集
+
+参考文献：https://www.kancloud.cn/kancloud/xorm-manual-zh-cn/56013
+说明：选用xorm作为mysql的ORM引擎
 ```
 
 # Sentry
@@ -104,8 +151,8 @@ func main() {
 - [x] Sentry 日志
 - [x] 加上Swagger
 - [x] 支持Cors处理
-- [ ] SQL 驱动与ORM选取
-- [ ] SQL 日志打印到graylog
+- [x] SQL 驱动与ORM选取
+- [x] SQL 日志打印到graylog
 - [x] 输出数据打印到graylog
 - [ ] Http请求
 - [x] Session

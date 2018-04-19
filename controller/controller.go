@@ -1,10 +1,11 @@
 package controller
 
 import (
-	"aos/errors"
-	"aos/utils"
+	"aos/pkg/errors"
+	"aos/pkg/utils"
 	"fmt"
 
+	"aos/persistence"
 	"aos/secret"
 
 	"github.com/gin-gonic/gin"
@@ -23,7 +24,7 @@ func AddNewSecret(c *gin.Context) {
 // @Param access_key path string true "秘钥KEY"
 // @Success 200 {string} json "{"status": 1,"message": "","result": {"access_key": "xxx","access_secret": ""}}"
 // @Router /secret/{access_key} [get]
-func (tapi *TestApi) GetS(c *gin.Context) {
+func (myc *TestApi) GetS(c *gin.Context) {
 
 	// utils.RedisHandle.SetData("test1", "hhhhh", 0)
 
@@ -36,12 +37,18 @@ func (tapi *TestApi) GetS(c *gin.Context) {
 	// if nil != err {
 	// 	fmt.Println(err)
 	// }
-	tapi.ServerJSON(c, authentication, errors.SUCCESSSTATUS)
+	myc.ServerJSON(c, authentication, errors.SUCCESSSTATUS)
 	// c.JSON(200, ResponseObject{
 	// 	1,
 	// 	"",
 	// 	authentication,
 	// })
+}
+
+func (myc *TestApi) GetDbTest(c *gin.Context) {
+	var subjectModel = persistence.NewGdSubjectFacFac()
+	subjectModel.FindAll("")
+	myc.ServerJSON(c, subjectModel.RowsSlicePtr, errors.SUCCESSSTATUS)
 }
 
 func CreateSecretFromRequest(c *gin.Context) secret.Secret {
