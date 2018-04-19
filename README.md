@@ -76,6 +76,34 @@ utils.RedisHandle.GetData("test1")
 说明：现在只封装了SetData 和 GetData ，异常未处理，未打印到graylog中去
 ```
 
+# Http Request Client 使用
+```Go
+import (
+    "aos/pkg/utils"
+)
+data, err := utils.HttpHandle.Post("url", param, header)
+data, err := utils.HttpHandle.Get("url", param, header)
+详见：aos/pkg/utils/http.go
+
+上传文件：
+import (
+	"github.com/imroc/req"
+)
+file, _ := os.Open("imroc.png")
+req.Post(url, req.FileUpload{
+	File:      file,
+	FieldName: "file",       // FieldName 是表单字段名
+	FileName:  "avatar.png", // Filename 是要上传的文件的名称，我们使用它来猜测mimetype，并将其上传到服务器上
+})
+使用req.UploadProgress监听上传进度
+
+progress := func(current, total int64) {
+	fmt.Println(float32(current)/float32(total)*100, "%")
+}
+req.Post(url, req.File("/Users/roc/Pictures/*.png"), req.UploadProgress(progress))
+fmt.Println("upload complete")
+```
+
 # Mysql 使用
 ```Go
 参见:"aos/persistence/demo.go"
@@ -154,10 +182,11 @@ func main() {
 - [x] SQL 驱动与ORM选取
 - [x] SQL 日志打印到graylog
 - [x] 输出数据打印到graylog
-- [ ] Http请求
+- [x] Http请求Clent
 - [x] Session
 - [x] X-Response-ID
 - [x] Consul 读取
 - [x] Redis 简单封装
-- [ ] DDD设计实现
 - [x] 状态码统一管理
+- [x] DDD设计实现,已经简单实现
+- [ ] 表单验证

@@ -37,6 +37,18 @@
 			"Rev": "3dd8b1cba42bfeb69fd0408b7fd1c3c345b2aba6"
 		},
 		{
+			"ImportPath": "github.com/armon/consul-api",
+			"Rev": "dcfedd50ed5334f96adee43fc88518a4f095e15c"
+		},
+		{
+			"ImportPath": "github.com/bernos/go-retry",
+			"Rev": "5c5b1f97512c9dc2406b2c77edc1284eb63847eb"
+		},
+		{
+			"ImportPath": "github.com/chenxuey/graylog-golang",
+			"Rev": "0f34672b662df0f00de4804a69c5df507c595af7"
+		},
+		{
 			"ImportPath": "github.com/fvbock/endless",
 			"Rev": "447134032cb6a86814f570257390a379982dfc61"
 		},
@@ -91,6 +103,65 @@
 			"Rev": "811b1089cde9dad18d4d0c2d09fbdbf28dbd27a5"
 		},
 		{
+			"ImportPath": "github.com/go-redis/redis",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/consistenthash",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/hashtag",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/pool",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/proto",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/singleflight",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/util",
+			"Comment": "v6.10.2",
+			"Rev": "877867d2845fbaf86798befe410b6ceb6f5c29a3"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.3-50-g9181e3a",
+			"Rev": "9181e3a86a19bacd63e68d43ae8b7b36320d8092"
+		},
+		{
+			"ImportPath": "github.com/go-xorm/builder",
+			"Rev": "a4a881a4e552fcb5473f39e8b9f7d9f3457a7fb0"
+		},
+		{
+			"ImportPath": "github.com/go-xorm/core",
+			"Comment": "v0.5.7-5-gcb1d0ca",
+			"Rev": "cb1d0ca71f42d3ee1bf4aba7daa16099bc31a7e9"
+		},
+		{
+			"ImportPath": "github.com/go-xorm/xorm",
+			"Comment": "v0.6.4-4-g3480244",
+			"Rev": "3480244cd27f8a3ca33e51e798346fa4064f25e2"
+		},
+		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Comment": "v1.0.0-1-gbbd03ef",
 			"Rev": "bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
@@ -99,6 +170,11 @@
 			"ImportPath": "github.com/google/uuid",
 			"Comment": "0.2-21-gdec09d7",
 			"Rev": "dec09d789f3dba190787f8b4454c7d3c936fed9e"
+		},
+		{
+			"ImportPath": "github.com/imroc/req",
+			"Comment": "v0.1.8",
+			"Rev": "e487483388746c1438a8a81aa3db91177eae2720"
 		},
 		{
 			"ImportPath": "github.com/json-iterator/go",
@@ -159,6 +235,14 @@
 			"ImportPath": "github.com/ugorji/go/codec",
 			"Comment": "v1.1-18-g6a0f936",
 			"Rev": "6a0f936d9527cafa42a8acfa0bf2d6cc94bb6024"
+		},
+		{
+			"ImportPath": "gitlab.gaodun.com/golib/consul",
+			"Rev": "7eeebeac34d8aafd234011b08b635df3029bbf12"
+		},
+		{
+			"ImportPath": "gitlab.gaodun.com/golib/graylog",
+			"Rev": "5fb5e89ebd067742c2dc034a3316ced7cfdd0bc3"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
