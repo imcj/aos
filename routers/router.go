@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"aos/bindService"
 	"aos/middleware/logs"
 	"aos/middleware/panicHandle"
 	"time"
@@ -11,8 +12,6 @@ import (
 	_ "aos/docs"
 
 	"aos/pkg/setting"
-
-	"aos/controller"
 
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -45,10 +44,12 @@ func InitRouter() *gin.Engine {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	testApi := new(controller.TestApi)
+	testApi := container.ProjectController
+	// := new(controller.TestApi)
 
 	c1 := r.Group("/v1")
 	c1.GET("/secret/:access_key", testApi.GetS)
 	c1.GET("/dbtest", testApi.GetDbTest)
+	c1.GET("/servicetest", testApi.GetServiceTest)
 	return r
 }
