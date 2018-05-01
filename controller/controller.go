@@ -3,6 +3,7 @@ package controller
 import (
 	"aos/pkg/errors"
 	"aos/pkg/utils"
+	"aos/project/service"
 	"fmt"
 
 	"aos/persistence"
@@ -13,6 +14,13 @@ import (
 
 type TestApi struct {
 	Base
+	ProjectService service.ProjectService
+}
+
+func NewProjectController(projectService service.ProjectService) *TestApi {
+	var c = &TestApi{}
+	c.ProjectService = projectService
+	return c
 }
 
 func AddNewSecret(c *gin.Context) {
@@ -63,4 +71,13 @@ func CreateSecretFromRequest(c *gin.Context) secret.Secret {
 		accessKey,
 		accessSecret,
 	}
+}
+
+func (myc *TestApi) GetServiceTest(c *gin.Context) {
+	// println(reflect.TypeOf(new(project_service_impl.ProjectServiceStruct)))
+
+	data := myc.ProjectService.List(8)
+
+	myc.ServerJSON(c, data, errors.SUCCESSSTATUS)
+
 }
