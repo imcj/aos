@@ -30,6 +30,6 @@ func (this *Container) init() {
 }
 
 func initEng(num int) *xorm.Engine {
-	eng, _ := utils.InitEng(num)
+	eng := utils.DbOne
 	return eng
 }

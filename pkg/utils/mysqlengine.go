@@ -1,117 +1,97 @@
 package utils
 
 import (
-	"aos/pkg/dbconf"
-	"aos/pkg/errors"
-	"aos/pkg/setting"
-	"strconv"
-	"strings"
+	"primary/pkg/dbconf"
+	"primary/pkg/setting"
 	"time"
 
-	"github.com/bernos/go-retry"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
+	"io"
 )
 
 const (
-	GAODUN        int = 0
-	DB_LIST_COUNT int = 1
+	// DB pool config
+	MaxIdleConns    int           = 50
+	MaxOpenConns    int           = 200
+	ConnMaxLifetime time.Duration = 1 * time.Hour
 )
 
-var engineList map[int]*xorm.Engine
+// 高顿库
+var DbOne = NewEngine(dbconf.GDDBConf[0].DriverName, dbconf.GDDBConf[0].DriverDns)
 
-func GetDBEng(engine *xorm.Engine, databaseNum int) func() (interface{}, error) {
-	return func() (interface{}, error) {
-		err := engine.Ping()
-		if err != nil {
-			configInfo, _ := dbconf.GetMySqlConfig()
-			if configInfo == nil {
-				return nil, errors.New(0, "consul 配置为空")
-			}
-			engine, _ = xorm.NewEngine(configInfo[databaseNum].DriverName, configInfo[databaseNum].DriverDns)
-			return nil, err
-		}
-		return nil, nil
+type Db struct {
+	MaxIdleConns    int
+	MaxOpenConns    int
+	ConnMaxLifetime time.Duration
+	driverName      string
+	dataSourceName  string
+	out             io.Writer // 写日志
+	e               *xorm.Engine
+}
+
+func NewEngine(driverName string, dataSourceName string) *xorm.Engine {
+	var d = Db{MaxIdleConns: MaxIdleConns,
+		MaxOpenConns:    MaxOpenConns,
+		ConnMaxLifetime: ConnMaxLifetime,
+		dataSourceName:  dataSourceName,
+		driverName:      driverName,
+		out:             GraySql,
 	}
+	RetryLog("start : " + dataSourceName)
+
+	d.InitEngine()
+	d.setPoolNum()
+	d.Ping()
+
+	return d.e
+}
+
+func (d *Db) setPoolNum() {
+	dbLogger := xorm.NewSimpleLogger(d.out)
+	dbLogger.ShowSQL(true)
+	dbLogger.SetLevel(core.LOG_INFO)
+	d.e.Logger().SetLevel(core.LOG_INFO)
+	d.e.SetLogger(dbLogger)
+	d.e.ShowSQL(true)
+	d.e.ShowExecTime(true)
+	d.e.DB().SetConnMaxLifetime(d.ConnMaxLifetime)
+	d.e.SetMaxIdleConns(d.MaxIdleConns)
+	d.e.SetMaxOpenConns(d.MaxOpenConns)
+}
+
+func (gd *Db) InitEngine() error {
+	e, err := xorm.NewEngine(gd.driverName, gd.dataSourceName)
+	if err != nil {
+		RetryLog("db_err : " + err.Error() + gd.dataSourceName)
+		fmt.Println("db_err : " + err.Error() + gd.dataSourceName)
+		panic(err)
+	}
+	gd.e = e
+	return nil
+}
+
+// 定时 ping 数据库状态
+func (d *Db) Ping() {
+	go func() {
+		var i time.Duration = 0
+		for {
+			if err := d.e.Ping(); err != nil {
+				i++
+				RetryLog("db_err_ping() err : %s, num: %d ", err.Error(), i)
+				d.InitEngine()
+				d.setPoolNum()
+				time.Sleep(i * 200 * time.Millisecond) // 200 毫秒
+			} else {
+				i = 0
+				time.Sleep(5 * time.Minute)
+			}
+		}
+	}()
 }
 
 func RetryLog(format string, v ...interface{}) {
 	setting.Logger.Infof(format, v)
-}
-
-var GraySql GrayXormSql
-
-// 实现 xrom 打印日志接口
-type GrayXormSql struct {
-}
-
-func (GrayXormSql) Write(p []byte) (n int, err error) {
-	if strings.Contains(strings.ToUpper(string(p)), "[SQL]") {
-		s := string(p)
-		t := strings.Split(s, "took:")
-		tst := strings.Trim(t[1], " ")
-		tst = strings.Replace(tst, "ms\n", "", -1)
-		sqlTime, _ := strconv.ParseFloat(tst, 10)
-		m := map[string]interface{}{
-			"user_sql":           s,
-			"user_sql_exec_time": sqlTime,
-		}
-		setting.Logger.Infof(s, m)
-	}
-	return 0, nil
-}
-
-// 初始化返回 engine
-func InitEng(databaseNum int) (*xorm.Engine, error) {
-	r := retry.Retry(GetDBEng(engineList[databaseNum], databaseNum),
-		retry.MaxRetries(5),
-		retry.BaseDelay(time.Millisecond*200),
-		retry.Log(RetryLog))
-	_, err := r()
-	if err != nil {
-		RetryLog(err.(error).Error())
-		return engineList[databaseNum], err.(error)
-	}
-	return engineList[databaseNum], nil
-}
-
-// 创建 连接并且缓存
-func InitEngine() error {
-	configInfo, err := dbconf.GetMySqlConfig()
-	if configInfo == nil {
-		return errors.New(0, "consul 配置为空")
-	}
-	if err != nil {
-		return errors.New(0, err.Error())
-	}
-	// 初始化
-	engineList = make(map[int]*xorm.Engine)
-
-	for i := 0; i < DB_LIST_COUNT; i++ {
-		engineList[i], err = xorm.NewEngine(configInfo[i].DriverName, configInfo[i].DriverDns)
-		RetryLog("start Db : " + configInfo[i].DriverDns)
-		if err != nil {
-			RetryLog("db err : " + err.Error() + configInfo[i].DriverName + configInfo[i].DriverDns)
-			return err
-		}
-
-		dbLogger := xorm.NewSimpleLogger(GraySql)
-		dbLogger.ShowSQL(true)
-		dbLogger.SetLevel(core.LOG_INFO)
-		engineList[i].Logger().SetLevel(core.LOG_INFO)
-		engineList[i].SetLogger(dbLogger)
-		engineList[i].ShowSQL(true)
-		engineList[i].ShowExecTime(true)
-		err = engineList[i].Ping()
-		if err != nil {
-			RetryLog("db ping() err : " + err.Error() + configInfo[i].DriverName + configInfo[i].DriverDns)
-			return err
-		}
-		tmpDb := engineList[i].DB()
-		tmpDb.SetConnMaxLifetime(1 * time.Hour)
-		engineList[i].SetMaxIdleConns(50)
-		engineList[i].SetMaxOpenConns(200)
-	}
-	return nil
 }
