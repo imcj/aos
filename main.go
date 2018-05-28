@@ -1,18 +1,22 @@
 package main
 
 import (
-	_ "aos/docs"
-	"aos/routers"
 	"fmt"
 	"log"
-	"net/http"
+	"syscall"
 
-	"aos/pkg/setting"
+	_ "sparta.gaodun.com/docs"
+	"sparta.gaodun.com/routers"
 
-	"aos/pkg/utils"
+	"sparta.gaodun.com/pkg/setting"
+
 	"os"
 
+	"sparta.gaodun.com/pkg/utils"
+
+	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 type ResponseObject struct {
@@ -49,12 +53,18 @@ func postSigUsr1() {
 // @BasePath /v1
 func main() {
 
-	//endless.DefaultReadTimeOut = setting.ReadTimeout
-	//endless.DefaultWriteTimeOut = setting.WriteTimeout
-	//endless.DefaultMaxHeaderBytes = 1 << 20
+	env := os.Getenv("SYSTEM_ENV")
+	if env != "" {
+		viper.Set("env", env)
+	}
+
+	endless.DefaultReadTimeOut = setting.ReadTimeout
+	endless.DefaultWriteTimeOut = setting.WriteTimeout
+	endless.DefaultMaxHeaderBytes = 1 << 20
 
 	// init log
 	setting.LoadConfig()
+
 	// init db
 	if err := utils.InitEngine(); err != nil {
 		fmt.Println("数据库连接异常：", err)
@@ -64,9 +74,10 @@ func main() {
 
 	endPoint := fmt.Sprintf(":%d", setting.HTTPPort)
 	handle := routers.InitRouter()
-	server := http.Server{
-		Addr:    endPoint,
-		Handler: handle,
+
+	server := endless.NewServer(endPoint, handle)
+	server.BeforeBegin = func(add string) {
+		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
 	err := server.ListenAndServe()
 	if err != nil {

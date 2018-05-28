@@ -16,6 +16,7 @@ import (
 
 var (
 	RunMode string
+	ENV     string
 
 	HTTPPort               int
 	ReadTimeout            time.Duration
@@ -54,7 +55,7 @@ var grayLog log.Handler
 func LoadConfig() {
 
 	loadBase()
-	loadOTher()
+	loadOther()
 	loadServer()
 	loadApp()
 	// 设置log
@@ -76,6 +77,7 @@ func loadBase() {
 	// 	peerpath := filepath.Join(p, "src/vip")
 	// 	viper.AddConfigPath(peerpath)
 	// }
+
 	err := viper.ReadInConfig() // Find and read the config file
 	if err != nil {             // Handle errors reading the config file
 		fmt.Println(fmt.Errorf("Fatal error when reading %s config file: %s\n", cmdRoot, err))
@@ -143,7 +145,8 @@ func Logrus(newFields ...map[string]interface{}) *logrus.Entry {
 	return logrus.WithFields(fields)
 }
 func loadServer() {
-	if viper.IsSet("RUN_MODE") {
+
+	if viper.IsSet("RUN_MODE") && ENV != "dev" {
 		RunMode = viper.GetString("RUN_MODE")
 	} else {
 		RunMode = "debug"
@@ -175,9 +178,15 @@ func loadApp() {
 	}
 }
 
-func loadOTher() {
+func loadOther() {
+	if viper.IsSet("env") {
+		ENV = viper.GetString("env")
+	} else {
+		ENV = "dev"
+	}
+
 	if viper.IsSet("consul.CONSUL_URL") {
-		CONSUL_URL = viper.GetString("consul.CONSUL_URL")
+		CONSUL_URL = fmt.Sprintf("%s%s", GetHttpFixDot(), viper.GetString("consul.CONSUL_URL"))
 	} else {
 		CONSUL_URL = ""
 	}
@@ -186,4 +195,18 @@ func loadOTher() {
 	} else {
 		CONSUL_LIST_NAME = ""
 	}
+}
+
+func GetHttpFixDot() string {
+	httpFixDot := "test."
+	if "dev" == ENV {
+
+	} else if "test" == ENV {
+		httpFixDot = "t."
+	} else if "prepare" == ENV {
+		httpFixDot = "pre."
+	} else if "production" == ENV {
+		httpFixDot = "pro."
+	}
+	return httpFixDot
 }

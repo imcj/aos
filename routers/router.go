@@ -45,6 +45,7 @@ func InitRouter() *gin.Engine {
 
 	//test
 	c1.GET("/graylog", containerInstance.TestApi.TestGraylog)
+	c1.GET("/name", containerInstance.TestApi.TestName)
 
 	//static
 	r.Static("/public", "./public")

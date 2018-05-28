@@ -5,23 +5,22 @@ import (
 	"aos/pkg/utils"
 	"fmt"
 
-	"aos/pkg/setting"
-
 	"github.com/gin-gonic/gin"
 )
 
 type TestApi struct {
+	Name string
 	Base
 }
 
 func NewDemoController() *TestApi {
-	var c = &TestApi{}
+	var c = &TestApi{Name: "mynameisstone"}
 	return c
 }
 
 // @Summary 获取S
 // @Produce  json
-// @Param access_key path string true "秘钥KEY"
+// @Param access_key path strinbee true "秘钥KEY"
 // @Success 200 {string} json "{"status": 1,"message": "","result": {"access_key": "xxx","access_secret": ""}}"
 // @Router /secret/{access_key} [get]
 func (myc *TestApi) GetS(c *gin.Context) {
@@ -46,8 +45,24 @@ func (myc *TestApi) GetS(c *gin.Context) {
 	// })
 }
 
+func (myc *TestApi) setName(name string) {
+	// println(reflect.TypeOf(new(project_service_impl.ProjectServiceStruct)))
+	// setting.GinLogger(c).Info("abc")
+	// myc.Name = "stone"
+	myc.Name = name
+}
+
 func (myc *TestApi) TestGraylog(c *gin.Context) {
 	// println(reflect.TypeOf(new(project_service_impl.ProjectServiceStruct)))
-	setting.GinLogger(c).Info("abc")
+	// setting.GinLogger(c).Info("abc")
+	// myc.Name = "stone"
+	myc.setName("我啊")
+	fmt.Print(myc.Name)
+}
 
+func (myc *TestApi) TestName(c *gin.Context) {
+	// println(reflect.TypeOf(new(project_service_impl.ProjectServiceStruct)))
+	// setting.GinLogger(c).Info("abc")
+	// myc.Name = "张三"
+	fmt.Print(myc.Name)
 }

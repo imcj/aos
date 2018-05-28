@@ -14,7 +14,6 @@ func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tool.NewUniqueIDAsync()
 		uuid := tool.GetUID()
-
 		logger := setting.GrayLog()
 		logger = logger.WithField("X-Response-ID", uuid)
 		c.Set("logger", logger)
