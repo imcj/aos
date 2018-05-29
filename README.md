@@ -1,3 +1,20 @@
+AOS
+====
+
+# 应用程序生命周期
+
+通常应用程序在启动时需要初始化一系列资源，如数据库、缓存等。AOS定义了一个Command模式的列表，定义这些资源加载的顺序，也可以根据具体需求
+开启或关闭这些资源。
+
+```go
+
+func main() {
+	interfaces.AddCommand(infrastructure.RemoteConfigCommand{}) // 远程配置如consul和etcd
+	interfaces.AddCommand(infrastructure.ConfigCommand{}) // 加载本地配置文件
+	interfaces.ExecuteCommands()
+}
+```
+
 # godep 使用
 ```
 安装 go get github.com/tools/godep
