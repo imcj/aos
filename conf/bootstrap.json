@@ -1,0 +1,8 @@
+{
+  "consul": null,
+  "application": {
+    "cycle": [
+      "ConfigCommand"
+    ]
+  }
+}
