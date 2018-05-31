@@ -3,8 +3,8 @@ package logs
 import (
 	"time"
 
-	"aos/pkg/setting"
-	"aos/pkg/tool"
+	"github.com/aos-stack/aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/tool"
 
 	"github.com/gin-gonic/gin"
 )

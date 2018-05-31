@@ -3,8 +3,8 @@ package panicHandle
 import (
 	"github.com/gin-gonic/gin"
 	"runtime/debug"
-	"aos/pkg/setting"
-	"aos/pkg/errors"
+	"github.com/aos-stack/aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/errors"
 )
 
 type HTTPError interface {

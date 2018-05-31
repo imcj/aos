@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"aos/pkg/errors"
-	"aos/pkg/utils"
+	"github.com/aos-stack/aos/pkg/errors"
+	"github.com/aos-stack/aos/pkg/utils"
 	"fmt"
 
 	"github.com/gin-gonic/gin"

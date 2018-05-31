@@ -2,7 +2,7 @@ package utils
 
 import (
 	"strings"
-	"primary/pkg/setting"
+	"github.com/aos-stack/aos/pkg/setting"
 	"strconv"
 )
 

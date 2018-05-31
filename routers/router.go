@@ -1,17 +1,17 @@
 package routers
 
 import (
-	"aos/bindService"
-	"aos/middleware/logs"
-	"aos/middleware/panicHandle"
+	"github.com/aos-stack/aos/bindService"
+	"github.com/aos-stack/aos/middleware/logs"
+	"github.com/aos-stack/aos/middleware/panicHandle"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
-	_ "aos/docs"
+	_ "github.com/aos-stack/aos/docs"
 
-	"aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/setting"
 
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"

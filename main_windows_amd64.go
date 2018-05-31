@@ -1,14 +1,14 @@
 package main
 
 import (
-	_ "aos/docs"
-	"aos/routers"
+	_ "github.com/aos-stack/aos/docs"
+	"github.com/aos-stack/aos/routers"
 	"fmt"
 	"net/http"
 
-	"aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/setting"
 
-	"aos/pkg/utils"
+	"github.com/aos-stack/aos/pkg/utils"
 	"log"
 	"os"
 	"os/signal"

@@ -2,8 +2,15 @@ package infrastructure
 
 import (
 	"github.com/spf13/viper"
-	"fmt"
+	"fmt",
+	"github.com/aos-stack/env"
 )
+
+type EnvCommand struct {}
+
+func (c EnvCommand)Execute() {
+	env.SetProvider(provider)
+}
 
 type RemoteConfigCommand struct {}
 

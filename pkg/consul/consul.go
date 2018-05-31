@@ -1,7 +1,7 @@
 package consul
 
 import (
-	"aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/setting"
 	"errors"
 	"os"
 

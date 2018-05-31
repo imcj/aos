@@ -1,15 +1,15 @@
 package main
 
 import (
-	"aos/routers"
+	"github.com/aos-stack/aos/routers"
 	"fmt"
 	"log"
 	"net/http"
 	"syscall"
 
-	_ "aos/docs"
+	_ "github.com/aos-stack/aos/docs"
 
-	"aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/setting"
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"

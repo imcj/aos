@@ -1,10 +1,10 @@
 package container
 
 import (
-	"aos/pkg/utils"
-	// "aos/project/domain"
-	// "aos/project/infrastructure/persistence/dbal"
-	"aos/controller"
+	"github.com/aos-stack/aos/pkg/utils"
+	// "github.com/aos-stack/aos/project/domain"
+	// "github.com/aos-stack/aos/project/infrastructure/persistence/dbal"
+	"github.com/aos-stack/aos/controller"
 
 	"github.com/go-xorm/xorm"
 )

@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/setting"
 	"time"
 
 	"github.com/imroc/req"

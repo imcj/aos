@@ -1,7 +1,7 @@
 package dbconf
 
 import (
-	"aos/pkg/consul"
+	"github.com/aos-stack/aos/pkg/consul"
 	"fmt"
 	"os"
 )

@@ -59,7 +59,7 @@ http://127.0.0.1:6001/swagger/index.html
 配置conf/app.ini 的log配置 LOG_FIELDS：打印到 graylog 的查询字段
 Level = enum [-1,0,1,2,3,4] => ["all","debug","info","warn","error","fatal"]
 
-引入 "aos/pkg/setting"
+引入 "github.com/aos-stack/aos/pkg/setting"
 eg:（Debug、Info、Warn、Error、Fatal）、（Debugf、Infof、Warnf、Errorf、Fatalf）
 setting.Logger.Info("string 类型")
 setting.Logger.Info("string 类型",interface{}")
@@ -69,7 +69,7 @@ setting.Logger.Info("string 类型",interface{}")
 
 # Code码使用
 ```
-"aos/pkg/errors"
+"github.com/aos-stack/aos/pkg/errors"
 eg:
 errors.SYSERR // code码
 errors.GetInfo()[errors.SYSERR] // code 对应的值
@@ -86,7 +86,7 @@ host := consulData["PUBLIC_MYSQL_DB_HOST"]
 # Redis 使用
 ```Go
 import (
-	"aos/pkg/utils"
+	"github.com/aos-stack/aos/pkg/utils"
 )
 utils.RedisHandle.SetData("test1", "hhhhh", 0)
 utils.RedisHandle.GetData("test1")
@@ -96,7 +96,7 @@ utils.RedisHandle.GetData("test1")
 # Http Request Client 使用
 ```Go
 import (
-    "aos/pkg/utils"
+    "github.com/aos-stack/aos/pkg/utils"
 )
 data, err := utils.HttpHandle.Post("url", param, header)
 data, err := utils.HttpHandle.Get("url", param, header)
@@ -123,10 +123,10 @@ fmt.Println("upload complete")
 
 # Mysql 使用
 ```Go
-参见:"aos/persistence/demo.go"
+参见:"github.com/aos-stack/aos/persistence/demo.go"
 类的结构
 import (
-	"aos/pkg/utils"
+	"github.com/aos-stack/aos/pkg/utils"
 	"github.com/go-xorm/xorm"
 )
 

@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"aos/pkg/consul"
+	"github.com/aos-stack/aos/pkg/consul"
 	"fmt"
 	"time"
 

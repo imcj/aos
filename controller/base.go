@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"aos/pkg/errors"
-	"aos/pkg/setting"
+	"github.com/aos-stack/aos/pkg/errors"
+	"github.com/aos-stack/aos/pkg/setting"
 	"encoding/json"
 
 	"github.com/gin-gonic/gin"

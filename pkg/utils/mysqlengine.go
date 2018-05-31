@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"primary/pkg/dbconf"
-	"primary/pkg/setting"
+	"github.com/aos-stack/aos/pkg/dbconf"
+	"github.com/aos-stack/aos/pkg/setting"
 	"time"
 
 	"fmt"
