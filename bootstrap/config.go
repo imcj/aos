@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"fmt"
+
+	"github.com/spf13/viper"
 )
 
 type Application struct {
@@ -49,7 +51,7 @@ func (c ConfigCommand)Execute() {
 	// viper.AddRemoteProvider("etcd", "http://consul.gaodunwangxiao.com","gaodun/config_center/")
 	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
-	err = viper.ReadRemoteConfig()
+	// err = viper.ReadRemoteConfig()
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}

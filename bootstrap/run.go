@@ -17,6 +17,7 @@ func (c BootstrapRunCommand)Execute() {
 	viper.AddConfigPath("conf")
 	interfaces.AddCommand("RemoteConfigCommand", RemoteConfigCommand{})
 	interfaces.AddCommand("ConfigCommand", ConfigCommand{})
+	interfaces.AddCommand("RedisCommand", RedisCommand{})
 	interfaces.AddCommand("HTTPServerCommand", HTTPServerCommand{})
 	interfaces.ExecuteCommands(Config.Application.Cycle)
 }
