@@ -37,3 +37,23 @@ func (c BootstrapConfigCommand)Execute() {
 		fmt.Println("Load bootstrap config file error ")
 	}
 }
+
+type ConfigCommand struct {
+
+}
+
+func (c ConfigCommand)Execute() {
+	viper.SetConfigName("app")
+	viper.AddConfigPath("./conf")
+	viper.SetConfigType("yaml")
+	// viper.AddRemoteProvider("etcd", "http://consul.gaodunwangxiao.com","gaodun/config_center/")
+	viper.AutomaticEnv()
+	err := viper.ReadInConfig()
+	err = viper.ReadRemoteConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+	// viper.SetEnvPrefix(cmdRoot)
+	// replacer := strings.NewReplacer(".", "_")
+	// viper.SetEnvKeyReplacer(replacer)
+}

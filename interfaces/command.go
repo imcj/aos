@@ -1,11 +1,10 @@
 package interfaces
 
 import (
-	// "github.com/aos-stack/env"
-	"container/list"
+	"fmt"
 )
 
-var commands * list.List
+var commands map[string]ApplicationCommand
 
 // ApplicationCommand interface
 type ApplicationCommand interface {
@@ -13,18 +12,16 @@ type ApplicationCommand interface {
 }
 
 // Add command to commands list
-func AddCommand(command ApplicationCommand) {
+func AddCommand(name string, command ApplicationCommand) {
 	if nil == commands {
-		commands = list.New()
+		commands = make(map[string]ApplicationCommand)
 	}
-	commands.PushFront(command)
+	commands[name] = command
 }
 
-func ExecuteCommands() {
-	var command ApplicationCommand
-	for e := commands.Front(); e != nil; e = e.Next() {
-		
-		command = e.Value.(ApplicationCommand)
-		command.Execute()
+func ExecuteCommands(aCommands []string) {
+	for _, name := range aCommands {
+		fmt.Println(commands[name])
+		commands[name].Execute()
 	}
 }

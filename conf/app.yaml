@@ -17,6 +17,12 @@ database:
         host: 127.0.0.1
         name: database_name
         prefix:
+
+redis:
+    default:
+        password:
+        host: 127.0.0.1
+        name: 0
 log:
     LOG_TYPE : gray
     LOG_UDP : udp://g02.graylog.gaodunwangxiao.com:5504
@@ -26,10 +32,3 @@ log:
 consul:
     CONSUL_URL : consul.gaodunwangxiao.com
     CONSUL_LIST_NAME : gaodun/config_center/
-api:
-
-http_fix:
-    dev : dev.
-    test : t-
-    prepare : pre-
-    production : 

@@ -1,8 +1,12 @@
 {
-  "consul": null,
+  "consul": {
+    "url": "consul.gaodunwangxiao.com",
+    "": ""
+  },
   "application": {
     "cycle": [
-      "ConfigCommand"
+      "ConfigCommand",
+      "HTTPServerCommand"
     ]
   }
 }
