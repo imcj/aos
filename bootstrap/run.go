@@ -7,7 +7,6 @@ import (
 )
 
 type BootstrapRunCommand struct {
-
 }
 
 func (c BootstrapRunCommand)Execute() {

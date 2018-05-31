@@ -8,10 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var Registry func(engine *gin.Engine)
+
 type HTTPServerCommand struct {}
 
 func (c HTTPServerCommand)Execute() {
 	router := gin.New()
+	Registry(router)
 
 	server := endless.NewServer(":3000", router)
 	server.BeforeBegin = func(add string) {
