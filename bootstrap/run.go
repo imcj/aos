@@ -17,6 +17,7 @@ func (c BootstrapRunCommand)Execute() {
 	interfaces.AddCommand("RemoteConfigCommand", RemoteConfigCommand{})
 	interfaces.AddCommand("ConfigCommand", ConfigCommand{})
 	interfaces.AddCommand("RedisCommand", RedisCommand{})
+	interfaces.AddCommand("MiddlewareCommand", MiddlewareCommand{})
 	interfaces.AddCommand("HTTPServerCommand", HTTPServerCommand{})
 	interfaces.ExecuteCommands(Config.Application.Cycle)
 }

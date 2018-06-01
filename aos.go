@@ -5,8 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// var registry func()
-
 func RegisterRouter(registry func(engine *gin.Engine)) {
 	bootstrap.Registry = registry
 }

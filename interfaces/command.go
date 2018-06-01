@@ -1,9 +1,5 @@
 package interfaces
 
-import (
-	"fmt"
-)
-
 var commands map[string]ApplicationCommand
 
 // ApplicationCommand interface
@@ -21,7 +17,6 @@ func AddCommand(name string, command ApplicationCommand) {
 
 func ExecuteCommands(aCommands []string) {
 	for _, name := range aCommands {
-		fmt.Println(commands[name])
 		commands[name].Execute()
 	}
 }
