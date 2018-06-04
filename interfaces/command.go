@@ -1,5 +1,10 @@
 package interfaces
 
+import (
+	"fmt"
+	// "github.com/apex/log"
+)
+
 var commands map[string]ApplicationCommand
 
 // ApplicationCommand interface
@@ -17,6 +22,13 @@ func AddCommand(name string, command ApplicationCommand) {
 
 func ExecuteCommands(aCommands []string) {
 	for _, name := range aCommands {
-		commands[name].Execute()
+		fmt.Println("Will load command " + name)
+		// log.Debug("Will load command" + name)
+		command := commands[name]
+		if nil == command {
+			fmt.Println(name + " not exists.")
+			continue
+		}
+		command.Execute()
 	}
 }

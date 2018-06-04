@@ -21,18 +21,6 @@ func InitRouter() *gin.Engine {
 
 	r := gin.New()
 
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"Origin"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		// AllowOriginFunc: func(origin string) bool {
-		// 	return origin == "https://xxx.com"
-		// },
-		MaxAge: 12 * time.Hour,
-	}))
-
 	r.Use(logs.Logger())
 	r.Use(gin.Recovery())
 	r.Use(panicHandle.CatchError())

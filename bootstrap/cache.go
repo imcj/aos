@@ -15,7 +15,7 @@ type RedisCommand struct {
 
 // TODO: 允许redis存在未明明的主机
 func (c RedisCommand)Execute() {
-	log.Info("RedisCommand")
+	log.Info("Did load RedisCommand")
 
 	RedisClients = make(map[string]*redis.Client)
 	var client *redis.Client
