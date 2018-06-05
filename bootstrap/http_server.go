@@ -1,9 +1,11 @@
 package bootstrap
 
 import (
+	"fmt"
 	// "fmt"
 	"log"
 	"syscall"
+
 	"github.com/aos-stack/aos/bootstrap/middleware"
 
 	"github.com/fvbock/endless"
@@ -13,11 +15,10 @@ import (
 
 var Registry func(engine *gin.Engine)
 
-type HTTPServerCommand struct {}
+type HTTPServerCommand struct{}
 
-func (c HTTPServerCommand)Execute() {
+func (c HTTPServerCommand) Execute() {
 	router := gin.New()
-	
 
 	var middlewares []string = make([]string, 0)
 	for _, m := range viper.Get("http.middleware").([]interface{}) {
@@ -28,7 +29,18 @@ func (c HTTPServerCommand)Execute() {
 
 	Registry(router)
 
-	server := endless.NewServer(":3000", router)
+	fmt.Println("==========")
+	fmt.Println(viper.GetDuration("http.server.timeout.read"))
+	fmt.Println("==========")
+
+	endless.DefaultReadTimeOut = viper.GetDuration("http.server.timeout.read")
+	endless.DefaultWriteTimeOut = viper.GetDuration("http.server.timeout.write")
+	endless.DefaultMaxHeaderBytes = 1 << 20
+	endPoint := fmt.Sprintf(":%d", viper.GetInt("http.server.port"))
+
+	log.Printf("http.server.port %d", endPoint)
+	server := endless.NewServer(endPoint, router)
+
 	server.BeforeBegin = func(add string) {
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
