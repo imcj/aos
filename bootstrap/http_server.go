@@ -2,11 +2,13 @@ package bootstrap
 
 import (
 	"fmt"
+	"time"
 	// "fmt"
 	"log"
 	"syscall"
 
 	"github.com/aos-stack/aos/bootstrap/middleware"
+	"github.com/aos-stack/env"
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -27,18 +29,24 @@ func (c HTTPServerCommand) Execute() {
 
 	middleware.UseGinHTTPMiddlewares(middlewares, router)
 
+	if env.Get() > 0 {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+
 	Registry(router)
+	initService(router)
+}
 
-	fmt.Println("==========")
-	fmt.Println(viper.GetDuration("http.server.timeout.read"))
-	fmt.Println("==========")
+func initService(router *gin.Engine) {
 
-	endless.DefaultReadTimeOut = viper.GetDuration("http.server.timeout.read")
-	endless.DefaultWriteTimeOut = viper.GetDuration("http.server.timeout.write")
+	endless.DefaultReadTimeOut = viper.GetDuration("http.server.timeout.read") * time.Second
+	endless.DefaultWriteTimeOut = viper.GetDuration("http.server.timeout.write") * time.Second
 	endless.DefaultMaxHeaderBytes = 1 << 20
 	endPoint := fmt.Sprintf(":%d", viper.GetInt("http.server.port"))
 
-	log.Printf("http.server.port %d", endPoint)
+	log.Printf("http.server.port %d", viper.GetInt("http.server.port"))
 	server := endless.NewServer(endPoint, router)
 
 	server.BeforeBegin = func(add string) {
@@ -48,5 +56,5 @@ func (c HTTPServerCommand) Execute() {
 	if err != nil {
 		log.Printf("Server err: %v", err)
 	}
-	log.Printf("123")
+	log.Printf("over success")
 }
