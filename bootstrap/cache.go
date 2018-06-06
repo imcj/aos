@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/go-redis/redis"
 	"github.com/apex/log"
+	"github.com/aos-stack/aos/container"
 )
 
 var RedisClients map[string]*redis.Client
@@ -43,5 +44,8 @@ func (c RedisCommand)Execute() {
 		} else {
 			RedisClients[key] = client
 		}
+		
 	}
+
+	aos.ContainerSet("redis", &RedisClients)
 }
