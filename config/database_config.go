@@ -1,5 +1,9 @@
 package bootstrap
 
+import (
+	"time"
+)
+
 type ConfigDatabase struct {
 	Type string
 	Host string
@@ -9,7 +13,7 @@ type ConfigDatabase struct {
 	Database string
 	MaxIdle int
 	MaxOpen int
-	MaxLeftTime int
+	MaxLeftTime time.Duration
 	LogSQL bool
 	LogSQLExecuteTime bool
 	LogLevel int
@@ -31,7 +35,7 @@ func (a *ConfigAssembler)Database(yaml map[string]interface{})*ConfigDatabase {
 	database := yaml["database"].(string)
 	maxIdle := yaml["max_idle"].(int)
 	maxOpen := yaml["max_open"].(int)
-	maxLeftTime := yaml["max_left_time"].(int)
+	maxLeftTime := time.Duration(yaml["max_left_time"].(int))
 	logSQL := yaml["log_sql"].(bool)
 	logSQLExecuteTime := yaml["log_sql_execute_time"].(bool)
 

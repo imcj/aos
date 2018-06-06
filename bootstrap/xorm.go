@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
+	"time"
 	"github.com/spf13/viper"
 	// "github.com/aos-stack/aos/interfaces"
 	_ "github.com/go-sql-driver/mysql"
@@ -30,15 +31,37 @@ func (c XORMCommand)Execute() {
 			panic(err)
 		}
 
+		// TODO:
+		
+		// dbLogger := xorm.NewSimpleLogger()
+		// dbLogger.ShowSQL(config.LogSQL)
+		// dbLogger.SetLevel(core.LogLevel)
+		// engine.Logger().SetLevel(config.LogLevel)
+		// engine.SetLogger(dbLogger)
+		engine.ShowSQL(config.LogSQL)
+		engine.ShowExecTime(config.LogSQLExecuteTime)
+		engine.DB().SetConnMaxLifetime(config.MaxLeftTime)
+		engine.SetMaxIdleConns(config.MaxIdle)
+		engine.SetMaxOpenConns(config.MaxOpen)
+
 		containerDatabases[name] = engine
 	}
 	aos.ContainerSet("database", containerDatabases)
 	
-	keepAlive()
+	go keepAlive()
 }
 
 func keepAlive() {
 	database := aos.ContainerGet("database").(map[string]*xorm.Engine)
-	engine := database["default"]
-	err := engine.Ping()
+
+	for {
+		for _, engine := range database {
+			err := engine.Ping()
+
+			if err != nil {
+				fmt.Println("Ping error")
+			}
+		}
+		time.Sleep(1 * time.Minute)
+	}
 }
