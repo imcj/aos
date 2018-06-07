@@ -18,7 +18,11 @@ func (c BootstrapRunCommand) Execute() {
 
 	interfaces.AddCommand("RemoteConfigCommand", RemoteConfigCommand{})
 	interfaces.AddCommand("ConfigCommand", ConfigCommand{})
+<<<<<<< HEAD
 	interfaces.AddCommand("LoggerCommand", LoggerCommand{})
+=======
+	interfaces.AddCommand("XORMCommand", XORMCommand{})
+>>>>>>> cj
 	interfaces.AddCommand("RedisCommand", RedisCommand{})
 	interfaces.AddCommand("GinHTTPMiddlewareCommand", GinHTTPMiddlewareCommand{})
 	interfaces.AddCommand("HTTPServerCommand", HTTPServerCommand{})

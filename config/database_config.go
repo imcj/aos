@@ -1,6 +1,11 @@
 package bootstrap
 
+import (
+	"time"
+)
+
 type ConfigDatabase struct {
+	Type string
 	Host string
 	Port int
 	Username string
@@ -8,9 +13,9 @@ type ConfigDatabase struct {
 	Database string
 	MaxIdle int
 	MaxOpen int
-	MaxLeftTime int
+	MaxLeftTime time.Duration
 	LogSQL bool
-	LogSQLExecuteTime int
+	LogSQLExecuteTime bool
 	LogLevel int
 }
 
@@ -22,6 +27,7 @@ type ConfigAssembler struct {
 func (a *ConfigAssembler)Database(yaml map[string]interface{})*ConfigDatabase {
 	// yaml["log_level"].(string)
 	var logLevel int
+	databaseType := yaml["type"].(string)
 	host := yaml["host"].(string)
 	port := yaml["port"].(int)
 	username := yaml["username"].(string)
@@ -29,9 +35,9 @@ func (a *ConfigAssembler)Database(yaml map[string]interface{})*ConfigDatabase {
 	database := yaml["database"].(string)
 	maxIdle := yaml["max_idle"].(int)
 	maxOpen := yaml["max_open"].(int)
-	maxLeftTime := yaml["max_left_time"].(int)
+	maxLeftTime := time.Duration(yaml["max_left_time"].(int))
 	logSQL := yaml["log_sql"].(bool)
-	logSQLExecuteTime := yaml["log_sql_execute_time"].(int)
+	logSQLExecuteTime := yaml["log_sql_execute_time"].(bool)
 
 	switch (yaml["log_level"]) {
 	case "DEBUG":
@@ -55,6 +61,7 @@ func (a *ConfigAssembler)Database(yaml map[string]interface{})*ConfigDatabase {
 	}
 
 	configDatabase := &ConfigDatabase {
+		databaseType,
 		host,
 		port,
 		username,
