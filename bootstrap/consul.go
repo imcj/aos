@@ -40,14 +40,14 @@ func (c ConsulCommand) Execute() {
 }
 
 // getEnv 获取 consul address fix
-func getEnv(dot string) string {
+// func getEnv(dot string) string {
 
-	consuls := map[string]string{
-		"local":      "test.",
-		"dev":        "test.",
-		"test":       "t.",
-		"prepare":    "pre.",
-		"production": "pro.",
-	}
-	return consuls[env.GetLabel()]
-}
+// 	consuls := map[string]string{
+// 		"local":      "test.",
+// 		"dev":        "test.",
+// 		"test":       "t.",
+// 		"prepare":    "pre.",
+// 		"production": "pro.",
+// 	}
+// 	return consuls[env.GetLabel()]
+// }
