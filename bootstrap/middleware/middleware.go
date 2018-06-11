@@ -8,20 +8,20 @@ import (
 
 var ginMiddlewares map[string]gin.HandlerFunc
 
-func RegisterGinHTTPMiddleware(name string,  middleware gin.HandlerFunc) {
+func RegisterGinHTTPMiddleware(name string, middleware gin.HandlerFunc) {
 	if nil == ginMiddlewares {
 		ginMiddlewares = make(map[string]gin.HandlerFunc)
 	}
 	ginMiddlewares[name] = middleware
 }
 
-func GetGinHTTPMiddleware(name string)gin.HandlerFunc {
+func GetGinHTTPMiddleware(name string) gin.HandlerFunc {
 	return ginMiddlewares[name]
 }
 
 func UseGinHTTPMiddlewares(middlewares []string, engine *gin.Engine) {
 	// log.Debug("Will ")
-	fmt.Println("will")
+	fmt.Println("will http Middlewares")
 	for _, middleware := range middlewares {
 		fmt.Println("Use http middleware " + middleware)
 		engine.Use(ginMiddlewares[middleware])
